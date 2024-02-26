@@ -1,0 +1,58 @@
+cabal-version:      3.4
+name:               raycaster
+version:            0.1.0.0
+synopsis:           Raycaster in Haskell
+description:
+  Please see the README at <https://github.com/dschrempf/raycaster#readme>
+
+category:           Math, Statistics
+homepage:           https://github.com/dschrempf/raycaster#readme
+bug-reports:        https://github.com/dschrempf/raycaster/issues
+author:             Dominik Schrempf
+maintainer:         dominik.schrempf@gmail.com
+copyright:          2024 Dominik Schrempf
+license:            GPL-3.0-or-later
+license-file:       License.txt
+build-type:         Simple
+extra-doc-files:
+  Changelog.md
+  Readme.md
+
+extra-source-files:
+data-files:
+
+source-repository head
+  location: https://github.com/dschrempf/raycaster
+  type:     git
+
+common common
+  default-extensions:
+
+common lib
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wunused-packages -Wredundant-constraints
+
+common test
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wunused-packages -Wredundant-constraints
+
+common bench
+  default-language: Haskell2010
+  ghc-options:      -Wall -Wunused-packages -Wredundant-constraints
+
+common exec
+  default-language: Haskell2010
+  ghc-options:
+    -Wall -Wunused-packages -Wredundant-constraints -threaded -rtsopts
+    -with-rtsopts=-N
+
+executable raycaster-bin
+  import:          common, exec
+  main-is:         Main.hs
+  hs-source-dirs:  app
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:
+    , base  >=4.7 && <5
+    , sdl2

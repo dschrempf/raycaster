@@ -1,29 +1,34 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module Main (main) where
 
 import Control.Monad (unless)
-import SDL
+import Paths_raycaster (getDataFileName)
+import qualified SDL
 
 main :: IO ()
 main = do
-  initializeAll
-  window <- createWindow "My SDL Application" defaultWindow
-  renderer <- createRenderer window (-1) defaultRenderer
-  appLoop renderer
-  destroyWindow window
+  SDL.initializeAll
 
-appLoop :: Renderer -> IO ()
-appLoop renderer = do
-  events <- pollEvents
-  let eventIsQPress event =
-        case eventPayload event of
-          KeyboardEvent keyboardEvent ->
-            keyboardEventKeyMotion keyboardEvent == Pressed
-              && keysymKeycode (keyboardEventKeysym keyboardEvent) == KeycodeQ
-          _ -> False
-      qPressed = any eventIsQPress events
-  rendererDrawColor renderer $= V4 0 0 255 255
-  clear renderer
-  present renderer
-  unless qPressed (appLoop renderer)
+  window <- SDL.createWindow "Hello World!" SDL.defaultWindow
+  renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
+
+  bmp <- getDataFileName "img/tng.bmp" >>= SDL.loadBMP
+  tex <- SDL.createTextureFromSurface renderer bmp
+  SDL.freeSurface bmp
+
+  let loop = do
+        SDL.clear renderer
+        SDL.copy renderer tex Nothing Nothing
+        SDL.present renderer
+
+        events <- SDL.pollEvents
+        unless (elem SDL.QuitEvent $ map SDL.eventPayload events) loop
+
+  loop
+
+  SDL.destroyTexture tex
+  SDL.destroyRenderer renderer
+  SDL.destroyWindow window
+
+  SDL.quit

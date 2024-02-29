@@ -19,7 +19,7 @@ extra-doc-files:
   Readme.md
 
 extra-source-files:
-data-files:
+data-files:         img/*.bmp
 
 source-repository head
   location: https://github.com/dschrempf/raycaster
@@ -50,8 +50,8 @@ executable raycaster-bin
   import:          common, exec
   main-is:         Main.hs
   hs-source-dirs:  app
-  other-modules:
-  autogen-modules:
+  other-modules:   Paths_raycaster
+  autogen-modules: Paths_raycaster
   ghc-options:
   build-depends:
     , base  >=4.7 && <5

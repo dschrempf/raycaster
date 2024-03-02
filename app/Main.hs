@@ -3,7 +3,7 @@
 module Main (main) where
 
 import Control.Monad (unless)
-import Paths_raycaster (getDataFileName)
+import Paths_hcast (getDataFileName)
 import qualified SDL
 
 main :: IO ()

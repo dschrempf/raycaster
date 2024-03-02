@@ -1,5 +1,5 @@
 cabal-version:      3.4
-name:               raycaster
+name:               hcast
 version:            0.1.0.0
 synopsis:           Raycaster in Haskell
 description:
@@ -19,7 +19,9 @@ extra-doc-files:
   Readme.md
 
 extra-source-files:
-data-files:         img/*.bmp
+data-files:
+  data/maze
+  img/*.bmp
 
 source-repository head
   location: https://github.com/dschrempf/raycaster
@@ -46,13 +48,23 @@ common exec
     -Wall -Wunused-packages -Wredundant-constraints -threaded -rtsopts
     -with-rtsopts=-N
 
-executable raycaster-bin
+library
+  import:          common, lib
+  exposed-modules: HCast.Util
+  hs-source-dirs:  src
+  other-modules:
+  autogen-modules:
+  ghc-options:
+  build-depends:   base >=4.7 && <5
+
+executable hcast-bin
   import:          common, exec
   main-is:         Main.hs
   hs-source-dirs:  app
-  other-modules:   Paths_raycaster
-  autogen-modules: Paths_raycaster
+  other-modules:   Paths_hcast
+  autogen-modules: Paths_hcast
   ghc-options:
   build-depends:
-    , base  >=4.7 && <5
+    , base   >=4.7 && <5
+    , hcast
     , sdl2

@@ -12,7 +12,7 @@
     }:
     let
       theseHpkgNames = [
-        "raycaster"
+        "hcast"
       ];
       thisGhcVersion = "ghc94";
       hOverlay = selfn: supern: {
@@ -20,7 +20,7 @@
           packageOverrides = selfh: superh:
             supern.haskell.packageOverrides selfh superh //
               {
-                raycaster = selfh.callCabal2nix "raycaster" ./. { };
+                hcast = selfh.callCabal2nix "hcast" ./. { };
               };
         };
       };
@@ -37,7 +37,7 @@
           theseHpkgsDev = builtins.mapAttrs (_: x: hlib.doBenchmark x) theseHpkgs;
         in
         {
-          packages = theseHpkgs // { default = theseHpkgs.raycaster; };
+          packages = theseHpkgs // { default = theseHpkgs.hcast; };
 
           devShells.default = hpkgs.shellFor {
             packages = _: (builtins.attrValues theseHpkgsDev);
